@@ -1,6 +1,5 @@
 CC:=gcc
-CFLAGS:=-Wall 
-CPPFLAGS:= -fpic -shared
+CFLAGS:=-Wall -fpic -shared
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
 LIB:= libcalculator.so
@@ -11,14 +10,16 @@ PREFIX?=/usr
 all: $(LIB)
 
 $(LIB): $(SRC) 
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c  $^
+	$(CC) $(CFLAGS) -o $@ -c  $^
 	
 install: $(LIB)
+	install -d $(PREFIX)/include
+	install -d $(PREFIX)/lib
 	install -m 644 math_functions.h $(PREFIX)/include
-	install -m 644 $(LIB) $(PREFIX)/lib/$(LIB)
+	install -m 644 $(LIB) $(PREFIX)/lib
 
 uninstall:
 	$(RM) $(PREFIX)/include/math_functions,h
 	$(RM) $(PREFIX)/lib/$(LIB)
 clean:
-	$(RM) $(LIB) $(BIN) $(OBJS)
+	$(RM) $(LIB) $(OBJS)

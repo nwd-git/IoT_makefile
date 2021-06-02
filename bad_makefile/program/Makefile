@@ -1,13 +1,15 @@
-CC:=gcc
+CC=gcc
 CFLAGS:=-Wall -I$(CURDIR)
-OBJS:=main.o math_functions.o
+SRC:=$(wildcard *.c)
+OBJS:=$(SRC:.c=.o)
 BIN:=calculator
 .PHONY: all clean
 
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) $(Flags) -o $@ $^ 
-
+	$(CC) $(CFLAGS) $^ -o $@ 
+$(OBJS): $(SRC)
+	$(CC) $(CFLAGS) -c $^
 clean:
 	$(RM) $(BIN) $(OBJS)

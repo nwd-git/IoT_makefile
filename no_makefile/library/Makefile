@@ -21,6 +21,8 @@ $(LIB): $(LIB_SRC)
 	$(CC) $(CFLAGS) -fpic -shared -o $@ -c $^
 
 install: $(LIB)
+	install -d $(PREFIX)/lib
+	install -d $(PREFIX)/include
 	install -m 644 $(LIB) $(PREFIX)/lib
 	install -m 644 file_reader.h $(PREFIX)/include
 uninstall:
