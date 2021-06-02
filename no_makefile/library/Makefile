@@ -1,27 +1,30 @@
 CC:=gcc
-LIB:=file_reader.so
+LIB:=libfilereader.so
 BIN:=main
-SRC:=$(wildcard *.c)
-OBJS=$(SRC:.c=.o)
-CFLAGS:=-Wall -Ipwd
+PROGRAM_SRC:=main.c
+OBJS:=$(PROGRAM_SRC:.c=.o)
+LIB_SRC:=file_reader.c
+LDFLAGS:=-L$(CURDIR) -lfilereader
+CFLAGS:=-Wall -I$(CURDIR)
 PREFIX?=/usr
 .PHONY: all install uninstall clean
 
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ 
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) 
 
-$(OBJS): $(SRC)
+$(OBJS): $(PROGRAM_SRC)
 	$(CC) $(CFLAGS) -c $^
 	
-$(LIB): file_reader.c
-	$(CC) $(CFLAGS) -o $@ -c $^
+$(LIB): $(LIB_SRC)
+	$(CC) $(CFLAGS) -fpic -shared -o $@ -c $^
 
 install: $(LIB)
+	install -m 644 $(LIB) $(PREFIX)/lib
 	install -m 644 file_reader.h $(PREFIX)/include
 uninstall:
-	rm -f $(PREFIX)/include/file_reader.h
-
+	$(RM) $(PREFIX)/include/file_reader.h
+	$(RM) $(PREFIX)/lib/$(LIB)
 clean:
-	rm -f $(BIN) $(OBJS) $(LIB)
+	$(RM) $(BIN) $(OBJS) $(LIB)

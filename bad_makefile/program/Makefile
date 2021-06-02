@@ -1,7 +1,8 @@
 CC:=gcc
-Flags:=-Wall -Ipwd
+CFLAGS:=-Wall -I$(CURDIR)
 OBJS:=main.o math_functions.o
 BIN:=calculator
+.PHONY: all clean
 
 all: $(BIN)
 
@@ -9,4 +10,4 @@ $(BIN): $(OBJS)
 	$(CC) $(Flags) -o $@ $^ 
 
 clean:
-	rm -f $(BIN) $(OBJS)
+	$(RM) $(BIN) $(OBJS)
