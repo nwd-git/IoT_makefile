@@ -21,4 +21,4 @@ uninstall:
 	$(RM) $(PREFIX)/include/math_functions,h
 	$(RM) $(PREFIX)/lib/$(LIB)
 clean:
-	rm -f $(LIB) $(BIN) $(OBJS)
+	$(RM) $(LIB) $(BIN) $(OBJS)
